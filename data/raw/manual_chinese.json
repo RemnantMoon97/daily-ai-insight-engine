@@ -1,0 +1,182 @@
+[
+  {
+    "id": "cn_001",
+    "title": "阿里ATH发布AI开发工具Meoo，可一键开发一键部署",
+    "source": "机器之心",
+    "url": "https://www.jiqizhixin.com/articles/2026-04-15-12",
+    "publish_date": "2026-04-15T12:00:00",
+    "language": "zh",
+    "summary": "4月15日，阿里ATH事业群发布0门槛AI开发工具Meoo（秒悟），集成千问、Kimi、GLM、MiniMax四大顶尖模型，内置阿里云数据库、存储等核心服务。用户无需编程基础，用自然语言描述需求，最快1分钟即可生成完整网站、H5页面并一键部署。该工具采用蜂群Agent模式，多Agent并行处理提升效率，复杂任务可自主规划拆解与修复。单人几分钟可完成开发团队一天工作量，已被阿里超1万非技术岗员工内部使用，即日起面向所有用户开放体验。"
+  },
+  {
+    "id": "cn_002",
+    "title": "浏览器原地变龙虾！Chrome上线Skills，技能一键复用帮你干活",
+    "source": "量子位",
+    "url": "https://www.qbitai.com/2026/04/401389.html",
+    "publish_date": "2026-04-15T13:46:10",
+    "language": "zh",
+    "summary": "2026年4月15日，谷歌Chrome推出Gemini Skills功能，浏览器免费变身智能体。用户可将常用提示词保存为可复用技能，通过斜杠键或加号一键调用，无需重复输入。功能内置50多个预设技能，覆盖营养计算、成分分析、视频总结等场景，支持跨设备同步与多标签页并行处理。敏感操作需用户确认，保障安全。此次升级标志传统浏览器向Agent化转型，同期Perplexity、ChatGPT、光年之外、Opera等均布局AI浏览器，人机交互方式迎来变革。"
+  },
+  {
+    "id": "cn_003",
+    "title": "有人把巴菲特芒格炼化成Agent，然后开源了…",
+    "source": "量子位",
+    "url": "https://www.qbitai.com/2026/04/400350.html",
+    "publish_date": "2026-04-13T13:21:46",
+    "language": "zh",
+    "summary": "2026年4月13日，开发者Virat Singh开源的AI Hedge Fund项目走红GitHub，获51.7k Star与9k+Fork。该项目将巴菲特、芒格等12位投资大师的投资哲学编码为Agent，搭配6位专业分析Agent，形成投资决策团队。系统采用三层架构，支持13种大模型与本地部署，具备策略回测功能，可先模拟再决策。提供命令行与Web可视化两种部署方式，助力散户低成本学习投资逻辑。项目仅作教育用途，无实盘验证，需警惕投资风险。"
+  },
+  {
+    "id": "cn_004",
+    "title": "苹果疯狂狙击Vibe Coding App",
+    "source": "36氪",
+    "url": "https://36kr.com/p/3767754300162567",
+    "publish_date": "2026-04-15T15:52:00",
+    "language": "zh",
+    "summary": "2026年4月15日，InfoQ报道苹果App Store以安全合规为由，阻止Replit等Vibe Coding应用更新，并两次下架Anything。苹果依据审核指南2.5.2条款，称此类应用允许用户运行未经审核的动态代码，绕过审核机制，存在安全风险。开发者质疑苹果为保护30%佣金、维护生态垄断与Xcode竞争优势，选择性执行规则。事件引发平台治理争议，业内认为苹果封闭生态与AI编程开放趋势冲突，或迫使开发者转向Web生态，影响iOS应用丰富度。"
+  },
+  {
+  "id": "cn_005",
+  "title": "“嘿，Grok！”特斯拉 2026 春季更新炸场：FSD 一键订阅，车载 AI 迎来语音时代",
+  "source": "AIBase",
+  "url": "https://www.aibase.com/zh/news/27110",
+  "publish_date": "2026-04-14T15:11:00",
+  "language": "zh",
+  "summary": "特斯拉正式发布 2026 年春季软件更新，这是迄今为止功能密度最高的一次季节性 OTA。更新重点包括车载 AI 助手 Grok 的重大升级：支持免打扰语音唤醒“嘿，Grok”、基于位置的语音提醒等生活助手功能。同时自动驾驶界面也重构，实现 FSD 功能一键订阅和实时运行数据透明展示。细节功能如可自定义宠物模式、盲区警示联动、24 小时循环行车记录等均有所改进。新款 Model 3/Y 的可视化效果提升，让驾驶交互更具科技感。不过备受期待的 CarPlay 仍未加入。整体来看，特斯拉正在将汽车进一步打造成智能移动终端。"
+  },
+  {
+  "id": "cn_006",
+  "title": "AI 交互新突破：Skywork AI 发布 Matrix-Game 3.0，实现 720p 40 帧实时高清“世界生成”",
+  "source": "AIBase",
+  "url": "https://www.aibase.com/zh/news/27106",
+  "publish_date": "2026-04-14T14:33:00",
+  "language": "zh",
+  "summary": "Skywork AI 团队发布了最新 Matrix-Game 3.0 系统，在交互式世界模型领域取得重要突破。该系统首次实现了在 720p 高清分辨率下每秒 40 帧的实时视频生成，并通过相机感知记忆检索机制等技术，成功解决了 AI 视频生成长期存在的“长效记忆”问题。系统集成了大量工业级数据（如虚幻引擎生成内容和 3A 游戏场景数据），并进行了推理架构优化，大幅提高了解码速度和运行效率。此外，团队还展示了参数更大的 MoE 模型，展示了这一技术在机器人训练、XR 扩展现实和沉浸式娱乐等领域的潜在应用前景。"
+  },
+  {
+  "id": "cn_007",
+  "title": "火山引擎Seedance 2.0 系列API正式上线，开放全球SOTA级视频生成能力",
+  "source": "AIBase",
+  "url": "https://www.aibase.com/zh/news/27105",
+  "publish_date": "2026-04-14T14:28:00",
+  "language": "zh",
+  "summary": "火山引擎正式推出 Seedance 2.0 系列 API 服务，该模型在视频生成领域属于全球 SOTA 级别，并已向企业及个人用户全面开放。Seedance 2.0 支持文字、图片、音频与视频等四模态混合输入，具备领先的多模态内容参考与编辑功能，相比前代在复杂交互与运动场景下表现更优，画面逼真度与可控性显著提高。在覆盖全流程的肖像与版权安全标准体系下，用户可通过“火山方舟”控制台完成人脸验证与肖像授权，确保合规创作。业内认为，该 API 的商业化将推动 AI 视频生成从实验性技术向生产力工具迈进，在营销、短剧与企业服务等领域实现更广泛应用。"
+  },
+  {
+  "id": "cn_008",
+  "title": "AI 正式纳入教资考试与公共必修课：五部门联合部署，开启全民智能素养培育时代",
+  "source": "AIBase",
+  "url": "https://www.aibase.com/zh/news/27102",
+  "publish_date": "2026-04-14T10:50:00",
+  "language": "zh",
+  "summary": "教育部、国家发展改革委、工信部、科技部及国家数据局等五部门联合发布《“人工智能+教育”行动计划》，标志着 AI 技术与教育的深度融合进入系统化阶段。该计划提出到 2030 年构建覆盖全学段及全社会的通识教育体系，要求基础教育全面开设 AI 课程，高等教育将 AI 纳入公共基础课，并将 AI 正式纳入教师资格考试与认证内容，以提升教师队伍的数字素养。同时推动 AI 赋能学生学习、教学流程和学校治理，并建设“教育智联网”等基础设施，为实现教育公平和个性化学习提供技术支持。"
+  },
+  {
+  "id": "cn_009",
+  "title": "谷歌 Gemini 推出基于 Nano Banana 技术的交互式可视化图像生成功能",
+  "source": "AIBase",
+  "url": "https://www.aibase.com/zh/news/27093",
+  "publish_date": "2026-04-14T09:36:00",
+  "language": "zh",
+  "summary": "谷歌为其 AI 助手 Gemini 推出了一项新的交互式图像生成功能，基于底层 Nano Banana 技术，使可视化能力从静态图像跨越到动态交互模拟。用户请求“展示”某一复杂主题时，系统可生成互动式视觉模拟程序，支持实时滑块调整、视角切换等操作。在示例中，月球绕地球运行与汽车引擎原理均能成为可操作的模拟视图。这种互动方式相比传统静态图片更直观地解析复杂逻辑，对在线教育、工程模拟和科普等领域具有重要应用价值。目前该功能正在向 Gemini 专业版用户逐步推出，教育版和 Workspace 账户暂不支持。"
+  },
+  {
+  "id": "cn_010",
+  "title": "AI 电影时代倒计时！爱奇艺龚宇：3 至 6 个月内或产出 AI 商业大片",
+  "source": "AIBase",
+  "url": "https://www.aibase.com/zh/news/27097",
+  "publish_date": "2026-04-14T10:08:00",
+  "language": "zh",
+  "summary": "据爱奇艺首席执行官龚宇在《人民日报》撰文分析，AI 视频生成大模型技术正推动影视制作从实验阶段迈向商业化阶段，预计在未来 3 到 6 个月内，有望诞生首批符合商业标准的 AI 制作大片。龚宇提出行业将进入量质齐升和角色重塑的新阶段，并强调媒体平台有望从中心化向非中心化转型，催生新的内容生态。同时爱奇艺在实体化 IP 运营上也展开尝试，如乐园落地等，展示 AI 技术在影视与文化产业融合的潜力。但他也重申艺术创作的人文核心仍不可替代，AI 是协同提升效率的工具。"
+  },
+  {
+    "id": "en_001",
+    "title": "Anthropic’s rise is giving some OpenAI investors second thoughts",
+    "source": "TechCrunch",
+    "url": "https://techcrunch.com/2026/04/14/anthropics-rise-is-giving-some-openai-investors-second-thoughts/",
+    "publish_date": "2026-04-14T19:31:00",
+    "language": "en",
+    "summary": "On April 14, 2026, TechCrunch reported that OpenAI’s $852 billion valuation is questioned by some investors as Anthropic grows rapidly. Driven by coding tools, Anthropic’s annualized revenue surged from $9 billion at end-2025 to $30 billion by March 2026, with its current valuation at $380 billion. In the secondary market, Anthropic shares are in strong demand while OpenAI shares trade at a discount. Some investors believe justifying OpenAI’s valuation requires an IPO valuation above $1.2 trillion. Iconiq Capital has invested heavily in Anthropic, but OpenAI CFO Sarah Friar defended investor confidence via its $122 billion fundraising."
+  },
+  {
+    "id": "en_002",
+    "title": "Canada’s Scotiabank preps for its AI future",
+    "source": "Artificial Intelligence News",
+    "url": "https://www.artificialintelligence-news.com/news/canadas-scotiabank-preps-for-its-ai-future/",
+    "publish_date": "2026-04-14T00:00:00",
+    "language": "en",
+    "summary": "On April 14, 2026, Scotiabank launched Scotia Intelligence, a unified AI framework integrating data platforms, governance and tools to enable secure, enterprise‑wide AI use. It includes Scotia Navigator for employee assistive AI, decision support and governed AI assistant building. AI now handles over 40% of client queries and 90% of commercial emails, cutting manual work. The bank released Canada’s first data ethics commitment paper; all AI uses undergo fairness reviews and staff get mandatory training. Scotiabank plans to add autonomous, context-aware agentic AI for research and analytics over time."
+  },
+  {
+    "id": "en_003",
+    "title": "Meta has a competitive AI model but loses its open-source identity",
+    "source": "Artificial Intelligence News",
+    "url": "https://www.artificialintelligence-news.com/news/meta-muse-spark-ai-model-open-source/",
+    "publish_date": "2026-04-10T00:00:00",
+    "language": "en",
+    "summary": "On April 8, 2026, Meta launched Muse Spark, its first flagship model from Meta Superintelligence Labs, marking a strategic shift from open-source to proprietary. Built after a $14.3 billion AI stack rebuild led by Alexandr Wang, this native multimodal model supports tool use, visual chain-of-thought and multi-agent orchestration, with three reasoning modes. It ranks fourth on major benchmarks and excels in health queries. Unlike Llama, Muse Spark is closed-source, available only via private API preview. Meta pledges future open-source models but faces skepticism from developers. The model will roll out across Meta’s apps, driving a more than 9% stock jump on launch day."
+  },
+  {
+    "id": "en_004",
+    "title": "AI’s software development success and central management needs",
+    "source": "Artificial Intelligence News",
+    "url": "https://www.artificialintelligence-news.com/news/ai-workflows-developer-success-and-central-project-management-needs/",
+    "publish_date": "2026-04-08T00:00:00",
+    "language": "en",
+    "summary": "On April 8, 2026, OutSystems released The State of AI Development 2026 survey based on 1,879 IT leaders. It shows agentic AI has entered early production in enterprises, with 97% exploring agentic strategies and 49% at advanced/expert level. Generative AI-assisted development delivers the strongest ROI at 40%, while legacy system integration is a top barrier. Only 36% have centralized AI governance; 94% worry about AI sprawl, yet just 12% use a central management platform. Trust in agent autonomy rises to 73%. The report urges stronger governance, human-in-the-loop checkpoints, and centralized orchestration for scalable, compliant AI deployment."
+  },
+  {
+    "id": "en_005",
+    "title": "Microsoft open-source toolkit secures AI agents at runtime",
+    "source": "Artificial Intelligence News",
+    "url": "https://www.artificialintelligence-news.com/news/microsoft-open-source-toolkit-secures-ai-agents-at-runtime/",
+    "publish_date": "2026-04-08T00:00:00",
+    "language": "en",
+    "summary": "On April 8, 2026, Microsoft released an open-source runtime security toolkit for enterprise AI agents, addressing risks like prompt injection and unauthorized tool calls. It inserts a policy enforcement layer between LLMs and external systems, blocking policy-violating actions in real time while providing audit logs. The toolkit supports any tech stack without vendor lock-in, helps control token/API costs and prevent runaway processes, and strengthens compliance. It replaces static checks with runtime governance, making AI agent deployments safer, auditable and cost-controllable for enterprises."
+  },
+  {
+    "id": "en_006",
+    "title": "China’s Zhipu AI open-sources flagship model, raises prices to narrow gap with US rivals",
+    "source": "South China Morning Post",
+    "url": "https://www.scmp.com/tech/policy/article/3349422/chinas-zhipu-ai-open-sources-flagship-model-raises-prices-narrow-gap-us-rivals",
+    "publish_date": "2026-04-08T21:00:00",
+    "language": "en",
+    "summary": "On April 8, 2026, Zhipu AI open-sourced its flagship model GLM‑5.1 and raised API prices by 10%, the second price hike this year after a more than 30% increase in February. The model is ranked the world’s strongest open-weight model by Artificial Analysis, trailing only top US models. Pricing stands at US$1.40 per million input tokens and US$4.40 per million output tokens, still much lower than US rivals like Anthropic. The dual move of open-sourcing and raising prices lifted Zhipu AI’s Hong Kong‑listed shares by 11.5% on the day, reflecting market confidence in its commercialization and technical strength."
+  },
+  {
+    "id": "en_007",
+    "title": "Google’s AI Overviews spew out millions of false answers per hour: bombshell study",
+    "source": "New York Post (NYPost.com)",
+    "url": "https://nypost.com/2026/04/09/business/googles-ai-overviews-spew-out-millions-of-false-answers-per-hour-bombshell-study/",
+    "publish_date": "2026-04-09T19:21:00",
+    "language": "en",
+    "summary": "On April 9, 2026, the NYPost reported on a bombshell study (originated by The New York Times and Oumi) finding Google’s AI Overviews (powered by Gemini 3) produce **57 million false answers per hour**—~950,000 per minute—despite 91% accuracy. The error rate is ~9–10%. At Google’s 5 trillion annual searches, a 10% error rate scales to massive misinformation. Issues include factual errors, bad citations, ungrounded claims (56% of correct answers lack proper source support), and unstable/random responses. Google disputes the study, calling the benchmark flawed and unrepresentative of real user queries."
+  },
+  {
+    "id": "en_008",
+    "title": "If big brands don’t adapt to AI-aided customers, they won’t survive",
+    "source": "The Times",
+    "url": "https://www.thetimes.com/business/companies-markets/article/how-brands-adapt-ai-shopping-0pjt53mvk",
+    "publish_date": "2026-04-10T14:35:00",
+    "language": "en",
+    "summary": "On April 10, 2026, The Times published an article stating autonomous AI shopping agents will reshape consumer goods, groceries, banking and financial services. Traditional brands that fail to adapt to AI‑assisted and AI‑delegated purchasing will struggle to survive. The shift moves decision‑making from direct human choice to AI‑driven recommendations, forcing brands to restructure product data, trust signals and visibility for AI systems. Brands must prioritize AI compatibility, structured data and agent‑friendly experiences to stay competitive in the new retail ecosystem."
+  },
+  {
+  "id": "en_009",
+  "title": "Colleague Skill: AI job fears in China set off viral spread of supposed ability harvester",
+  "source": "South China Morning Post",
+  "url": "https://www.scmp.com/tech/tech-trends/article/3349790/colleague-skill-ai-job-fears-china-set-viral-spread-supposed-ability-harvester",
+  "publish_date": "2026-04-12T16:31:00",
+  "language": "en",
+  "summary": "在中国，一款名为 “Colleague Skill” 的开源 AI 项目近日在社交媒体上走红，该项目声称可以将人类工作能力“提取”为可复用的 AI 技能文件，使技能能够被下载和重复利用，甚至包括历史人物或普通白领的技能示例。这一概念迅速传播，反映了年轻职场人对 AI 技术快速发展带来职业不安的焦虑心态。项目开发者表示初衷是帮助企业在同事离职后将工作文档和经验转化为系统可用的技能模块，但该工具在技术层面仍主要适用于常规性、重复性任务，而非人类判断与创造性工作。这一现象折射出公众对 AI 未来就业影响的深层担忧。\":contentReference[oaicite:0]{index=0}"
+  },
+  {
+    "id": "en_010",
+    "title": "China’s edge over US in AI world models: abundant data, faster deployment, executive says",
+    "source": "South China Morning Post",
+    "url": "https://www.scmp.com/tech/big-tech/article/3350062/chinas-edge-over-us-ai-world-models-abundant-data-faster-deployment-executive-says",
+    "publish_date": "2026-04-14T20:00:00",
+    "language": "en",
+    "summary": "On April 14, 2026, SCMP reported that GigaAI algorithm partner Wang Xiaofeng stated China has advantages over the US in AI world models. World models simulate 3D environments and physical dynamics for robots and autonomous vehicles. China benefits from strong industrial base, massive real-world factory data and government-backed large-scale data collection. Chinese models focus more on industrial and government applications, while US counterparts lean toward gaming and design. GigaAI’s GigaWorld‑1 outperformed Google and Nvidia models in visual quality, physical compliance and 3D accuracy in WorldArena benchmarks."
+  }
+]

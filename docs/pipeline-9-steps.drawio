@@ -1,0 +1,57 @@
+<mxGraphModel background="#F2EFE8" grid="0" tooltips="0" connect="0" arrows="0" fold="0" page="0" pageScale="1" pageWidth="1654" pageHeight="1169" math="0" shadow="0">
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+    <mxCell id="border" value="" style="rounded=0;arcSize=3;fillColor=none;strokeColor=#B9B3AB;strokeWidth=1.5;pointerEvents=0;" vertex="1" parent="1">
+      <mxGeometry x="20" y="20" width="1614" height="1200" as="geometry"/>
+    </mxCell>
+    <mxCell id="title" value="AI 舆情分析日报系统 — 完整 9 步流程" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;overflow=hidden;fontStyle=1;fontSize=32;fontColor=#1F1F1C;" vertex="1" parent="1">
+      <mxGeometry x="80" y="40" width="1500" height="50" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s12" value="&lt;b&gt;Step 1-2: 数据采集与加载&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#D88966&quot;&gt;hn_collector.py + manual_chinese.json&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=50;fillColor=#F8E9E1;strokeColor=#D88966;strokeWidth=1.8;fontColor=#D88966;fontSize=20;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="490" y="130" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s3" value="&lt;b&gt;Step 3: 数据合并&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#7A756E&quot;&gt;按 ID 去重&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;fillColor=#E6E2DA;strokeColor=#8C867F;strokeWidth=1.8;fontColor=#2D2B28;fontSize=20;" vertex="1" parent="1">
+      <mxGeometry x="490" y="270" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s4" value="&lt;b&gt;Step 4: 数据清洗&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#7A756E&quot;&gt;src/cleaner.py — 标准化 → 补全 → 去重 → 噪声过滤&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;fillColor=#E6E2DA;strokeColor=#8C867F;strokeWidth=1.8;fontColor=#2D2B28;fontSize=20;" vertex="1" parent="1">
+      <mxGeometry x="490" y="410" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s5" value="&lt;b&gt;Step 5: 结构化抽取&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#7A756E&quot;&gt;src/extractor.py — 智谱 GLM 逐条调用&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;fillColor=#D7E6DC;strokeColor=#7FB08F;strokeWidth=1.8;fontColor=#2D2B28;fontSize=20;" vertex="1" parent="1">
+      <mxGeometry x="490" y="550" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s6" value="&lt;b&gt;Step 6: 事件聚类 + 热点排序&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#7A756E&quot;&gt;src/cluster.py — 规则预分组 → LLM 精细合并&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;fillColor=#D7E6DC;strokeColor=#7FB08F;strokeWidth=1.8;fontColor=#2D2B28;fontSize=20;" vertex="1" parent="1">
+      <mxGeometry x="490" y="690" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s7" value="&lt;b&gt;Step 7: 分析报告&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#71AE88&quot;&gt;src/analyzer.py → output/report.md&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;fillColor=#CFE8D7;strokeColor=#71AE88;strokeWidth=1.8;fontColor=#2D2B28;fontSize=20;" vertex="1" parent="1">
+      <mxGeometry x="490" y="830" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s8" value="&lt;b&gt;Step 8: 可视化图表&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#71AE88&quot;&gt;src/visualizer.py → output/charts/*.png&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;fillColor=#CFE8D7;strokeColor=#71AE88;strokeWidth=1.8;fontColor=#2D2B28;fontSize=20;" vertex="1" parent="1">
+      <mxGeometry x="490" y="970" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="n_s9" value="&lt;b&gt;Step 9: Web 可视化报告&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size:14px&quot; color=&quot;#71AE88&quot;&gt;src/web_report.py → output/report.html&lt;/font&gt;" style="rounded=1;whiteSpace=wrap;html=1;arcSize=10;fillColor=#CFE8D7;strokeColor=#71AE88;strokeWidth=1.8;fontColor=#2D2B28;fontSize=20;" vertex="1" parent="1">
+      <mxGeometry x="490" y="1110" width="680" height="70" as="geometry"/>
+    </mxCell>
+    <mxCell id="e1" edge="1" source="n_s12" target="n_s3" style="endArrow=open;endSize=14;edgeStyle=orthogonalEdgeStyle;strokeColor=#7A756E;strokeWidth=1.8;rounded=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e2" edge="1" source="n_s3" target="n_s4" style="endArrow=open;endSize=14;edgeStyle=orthogonalEdgeStyle;strokeColor=#7A756E;strokeWidth=1.8;rounded=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e3" edge="1" source="n_s4" target="n_s5" style="endArrow=open;endSize=14;edgeStyle=orthogonalEdgeStyle;strokeColor=#7A756E;strokeWidth=1.8;rounded=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e4" edge="1" source="n_s5" target="n_s6" style="endArrow=open;endSize=14;edgeStyle=orthogonalEdgeStyle;strokeColor=#7A756E;strokeWidth=1.8;rounded=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e5" edge="1" source="n_s6" target="n_s7" style="endArrow=open;endSize=14;edgeStyle=orthogonalEdgeStyle;strokeColor=#7A756E;strokeWidth=1.8;rounded=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e6" edge="1" source="n_s7" target="n_s8" style="endArrow=open;endSize=14;edgeStyle=orthogonalEdgeStyle;strokeColor=#7A756E;strokeWidth=1.8;rounded=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e7" edge="1" source="n_s8" target="n_s9" style="endArrow=open;endSize=14;edgeStyle=orthogonalEdgeStyle;strokeColor=#7A756E;strokeWidth=1.8;rounded=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" parent="1">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+  </root>
+</mxGraphModel>

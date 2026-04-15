@@ -1,0 +1,167 @@
+[
+  {
+    "id": "hn_47762901",
+    "title": "An AI Vibe Coding Horror Story",
+    "source": "Hacker News",
+    "url": "https://www.tobru.ch/an-ai-vibe-coding-horror-story/",
+    "publish_date": "2026-04-14T16:35:45",
+    "language": "en",
+    "summary": "An AI Vibe Coding Horror Story",
+    "score": 11,
+    "descendants": 0
+  },
+  {
+    "id": "hn_47762641",
+    "title": "Introspective Diffusion Language Models",
+    "source": "Hacker News",
+    "url": "https://introspective-diffusion.github.io/",
+    "publish_date": "2026-04-14T15:57:33",
+    "language": "en",
+    "summary": "Introspective Diffusion Language Models",
+    "score": 18,
+    "descendants": 4
+  },
+  {
+    "id": "hn_47762006",
+    "title": "Can Claude Fly a Plane?",
+    "source": "Hacker News",
+    "url": "https://so.long.thanks.fish/can-claude-fly-a-plane/",
+    "publish_date": "2026-04-14T14:32:45",
+    "language": "en",
+    "summary": "Can Claude Fly a Plane?",
+    "score": 76,
+    "descendants": 70
+  },
+  {
+    "id": "hn_47756772",
+    "title": "GAIA – Open-source framework for building AI agents that run on local hardware",
+    "source": "Hacker News",
+    "url": "https://amd-gaia.ai/docs",
+    "publish_date": "2026-04-14T03:28:41",
+    "language": "en",
+    "summary": "GAIA – Open-source framework for building AI agents that run on local hardware",
+    "score": 128,
+    "descendants": 30
+  },
+  {
+    "id": "hn_47759292",
+    "title": "The AI revolution in math has arrived",
+    "source": "Hacker News",
+    "url": "https://www.quantamagazine.org/the-ai-revolution-in-math-has-arrived-20260413/",
+    "publish_date": "2026-04-14T07:26:04",
+    "language": "en",
+    "summary": "The AI revolution in math has arrived",
+    "score": 83,
+    "descendants": 48
+  },
+  {
+    "id": "hn_47751936",
+    "title": "Microsoft isn't removing Copilot from Windows 11, it's just renaming it",
+    "source": "Hacker News",
+    "url": "https://www.neowin.net/opinions/microsoft-isnt-removing-copilot-from-windows-11-its-just-renaming-it/",
+    "publish_date": "2026-04-13T21:48:24",
+    "language": "en",
+    "summary": "Microsoft isn't removing Copilot from Windows 11, it's just renaming it",
+    "score": 348,
+    "descendants": 262
+  },
+  {
+    "id": "hn_47761720",
+    "title": "Microsoft exec suggests AI agents will need to buy licenses, just like employees",
+    "source": "Hacker News",
+    "url": "https://www.businessinsider.com/microsoft-executive-suggests-ai-agents-buy-software-licenses-seats-2026-4",
+    "publish_date": "2026-04-14T13:46:26",
+    "language": "en",
+    "summary": "Microsoft exec suggests AI agents will need to buy licenses, just like employees",
+    "score": 12,
+    "descendants": 5
+  },
+  {
+    "id": "hn_47754179",
+    "title": "Claude Code may be burning your limits with invisible tokens",
+    "source": "Hacker News",
+    "url": "https://efficienist.com/claude-code-may-be-burning-your-limits-with-invisible-tokens-you-cant-see-or-audit/",
+    "publish_date": "2026-04-14T00:10:15",
+    "language": "en",
+    "summary": "Claude Code may be burning your limits with invisible tokens",
+    "score": 40,
+    "descendants": 5
+  },
+  {
+    "id": "hn_47733217",
+    "title": "Exploiting the most prominent AI agent benchmarks",
+    "source": "Hacker News",
+    "url": "https://rdi.berkeley.edu/blog/trustworthy-benchmarks-cont/",
+    "publish_date": "2026-04-12T03:15:56",
+    "language": "en",
+    "summary": "Exploiting the most prominent AI agent benchmarks",
+    "score": 579,
+    "descendants": 139
+  },
+  {
+    "id": "hn_47761616",
+    "title": "Sam Altman: Man charged with attempting to murder OpenAI boss",
+    "source": "Hacker News",
+    "url": "https://news.sky.com/story/sam-altman-man-charged-with-attempting-to-murder-openai-boss-13531548",
+    "publish_date": "2026-04-14T13:30:12",
+    "language": "en",
+    "summary": "Sam Altman: Man charged with attempting to murder OpenAI boss",
+    "score": 9,
+    "descendants": 1
+  },
+  {
+    "id": "hn_47747017",
+    "title": "Apple's accidental moat: How the \"AI Loser\" may end up winning",
+    "source": "Hacker News",
+    "url": "https://adlrocha.substack.com/p/adlrocha-how-the-ai-loser-may-end",
+    "publish_date": "2026-04-13T10:53:10",
+    "language": "en",
+    "summary": "Apple's accidental moat: How the \"AI Loser\" may end up winning",
+    "score": 410,
+    "descendants": 362
+  },
+  {
+    "id": "hn_47754559",
+    "title": "Show HN: Mcptube – Karpathy's LLM Wiki idea applied to YouTube videos",
+    "source": "Hacker News",
+    "url": "https://github.com/0xchamin/mcptube",
+    "publish_date": "2026-04-14T00:34:09",
+    "language": "en",
+    "summary": "Show HN: Mcptube – Karpathy's LLM Wiki idea applied to YouTube videos",
+    "score": 9,
+    "descendants": 0
+  },
+  {
+    "id": "hn_47758880",
+    "title": "When AI Trading Works, You Won't Hear About It",
+    "source": "Hacker News",
+    "url": "https://magis.substack.com/p/ai-trading-bots-dont-work-yet",
+    "publish_date": "2026-04-14T06:42:08",
+    "language": "en",
+    "summary": "When AI Trading Works, You Won't Hear About It",
+    "score": 26,
+    "descendants": 4
+  },
+  {
+    "id": "hn_47738864",
+    "title": "Why AI Sucks at Front End",
+    "source": "Hacker News",
+    "url": "https://nerdy.dev/why-ai-sucks-at-front-end",
+    "publish_date": "2026-04-12T20:26:09",
+    "language": "en",
+    "summary": "Why AI Sucks at Front End",
+    "score": 116,
+    "descendants": 160
+  },
+  {
+    "id": "hn_47736476",
+    "title": "Anthropic downgraded cache TTL on March 6th",
+    "source": "Hacker News",
+    "url": "https://github.com/anthropics/claude-code/issues/46829",
+    "publish_date": "2026-04-12T13:45:52",
+    "language": "en",
+    "summary": "Anthropic downgraded cache TTL on March 6th",
+    "score": 545,
+    "descendants": 418
+  }
+]
