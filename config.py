@@ -90,6 +90,7 @@ SCHEDULE_TIME = "08:00"       # 定时采集时间（每天）
 PROMPT_TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), "prompt.txt")
 PROMPT_ANALYSIS_PATH = os.path.join(os.path.dirname(__file__), "prompt_analysis.txt")
 PROMPT_INVESTMENT_PATH = os.path.join(os.path.dirname(__file__), "prompt", "investment_analysis.txt")
+PROMPT_DAILY_ARTICLE_PATH = os.path.join(os.path.dirname(__file__), "prompt", "daily_article_body.txt")
 
 # 输出配置
 OUTPUT_DIR = os.path.join(os.path.dirname(__file__), "output")

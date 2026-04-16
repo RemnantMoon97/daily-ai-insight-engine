@@ -18,6 +18,7 @@ from datetime import datetime, date
 sys.path.insert(0, ".")
 from config import OUTPUT_DIR, DATA_DAILY_DIR, ZHIPU_MODEL
 from src.investment_analyzer import generate_investment_analysis, load_investment_analysis, save_investment_analysis
+from src.daily_article_generator import generate_daily_article, load_daily_article, save_daily_article
 from src.collector.daily_store import cleanup_old_daily
 
 CHART_COLORS = [
@@ -42,6 +43,7 @@ def markdown_to_html(text: str) -> str:
     html = []
     in_list = False
     in_table = False
+    in_blockquote = False
 
     def close_list():
         nonlocal in_list
@@ -55,6 +57,12 @@ def markdown_to_html(text: str) -> str:
             html.append("</tbody></table>")
             in_table = False
 
+    def close_blockquote():
+        nonlocal in_blockquote
+        if in_blockquote:
+            html.append("</blockquote>")
+            in_blockquote = False
+
     def inline_format(s):
         s = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', s)
         s = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2" target="_blank">\1</a>', s)
@@ -66,6 +74,7 @@ def markdown_to_html(text: str) -> str:
         # 表格行
         if '|' in s and s.startswith('|'):
             close_list()
+            close_blockquote()
             cells = [c.strip() for c in s.strip('|').split('|')]
             # 分隔行 |---|---| 跳过
             if all(re.match(r'^[-:]+$', c) for c in cells):
@@ -85,34 +94,50 @@ def markdown_to_html(text: str) -> str:
         else:
             close_table()
 
-        if s.startswith("#### "):
+        if s.startswith("> "):
             close_list()
+            close_table()
+            if not in_blockquote:
+                html.append('<blockquote>')
+                in_blockquote = True
+            html.append(f'<p>{inline_format(s[2:])}</p>')
+        elif s.startswith("#### "):
+            close_list()
+            close_blockquote()
             html.append(f'<h4>{s[5:]}</h4>')
         elif s.startswith("### "):
             close_list()
+            close_blockquote()
             html.append(f'<h3>{s[4:]}</h3>')
         elif s.startswith("## "):
             close_list()
+            close_blockquote()
             html.append(f'<h2>{s[3:]}</h2>')
         elif s.startswith("# "):
             close_list()
+            close_blockquote()
             html.append(f'<h1>{s[2:]}</h1>')
         elif s.startswith("- "):
+            close_blockquote()
             if not in_list:
                 html.append('<ul>')
                 in_list = True
             html.append(f'<li>{inline_format(s[2:])}</li>')
         elif s.startswith("---"):
             close_list()
+            close_blockquote()
             html.append('<hr>')
         elif s == "":
             close_list()
+            close_blockquote()
         else:
             close_list()
+            close_blockquote()
             html.append(f'<p>{inline_format(s)}</p>')
 
     close_list()
     close_table()
+    close_blockquote()
     return "\n".join(html)
 
 
@@ -451,6 +476,7 @@ def generate_web_report(
     # 7. 生成投资情绪分析（仅对有资格显示完整日报的日期）
     #    尝试加载已有结果，否则实时生成
     investment_map = {}
+    article_map = {}
     for s in all_summaries:
         day = s["date"]
         if day not in full_report_dates:
@@ -466,12 +492,24 @@ def generate_web_report(
         if inv:
             investment_map[day] = inv
 
+        article_md = load_daily_article(day)
+        if not article_md:
+            day_news = all_daily_news.get(day, [])
+            if day_news:
+                article_md = generate_daily_article(day_news, inv, target_date=day)
+                if article_md:
+                    save_daily_article(article_md, target_date=day)
+                    time.sleep(1.5)
+        if article_md:
+            article_map[day] = markdown_to_html(article_md)
+
     # 8. 构建 HTML
     html = _HTML_TEMPLATE
     html = html.replace("__ALL_SUMMARIES_JSON__", json.dumps(all_summaries, ensure_ascii=False))
     html = html.replace("__ALL_DAILY_NEWS_JSON__", json.dumps(all_daily_news, ensure_ascii=False))
     html = html.replace("__ANALYSIS_MAP_JSON__", json.dumps(analysis_map, ensure_ascii=False))
     html = html.replace("__INVESTMENT_MAP_JSON__", json.dumps(investment_map, ensure_ascii=False))
+    html = html.replace("__ARTICLE_MAP_JSON__", json.dumps(article_map, ensure_ascii=False))
     html = html.replace("__CLUSTERS_JSON__", json.dumps(clusters, ensure_ascii=False))
     html = html.replace("__STATS_JSON__", json.dumps(stats, ensure_ascii=False))
     html = html.replace("__TARGET_DATE__", target_date)
@@ -777,6 +815,147 @@ body::before{
 .analysis-content .md-table td{
   padding:6px 12px;border-bottom:1px solid rgba(255,255,255,0.03);
   color:var(--text-secondary);
+}
+.daily-article{
+  background:linear-gradient(180deg,rgba(255,255,255,0.03) 0%,rgba(255,255,255,0.015) 100%);
+  border:1px solid var(--border-card);
+  border-radius:calc(var(--radius) + 4px);
+  overflow:hidden;
+  box-shadow:0 18px 50px rgba(0,0,0,0.22);
+}
+.daily-article-header{
+  padding:34px 38px 24px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+  background:
+    linear-gradient(135deg,rgba(0,255,200,0.08) 0%,rgba(124,77,255,0.06) 55%,rgba(255,179,71,0.05) 100%);
+}
+.daily-article-kicker{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:12px;
+}
+.daily-article-kicker::before{
+  content:'';width:22px;height:1px;background:var(--accent);opacity:0.8;
+}
+.daily-article-title{
+  font-family:var(--font-display);font-size:clamp(28px,3.4vw,40px);font-weight:800;
+  line-height:1.15;letter-spacing:-0.03em;color:#fff;max-width:14ch;
+}
+.daily-article-deck{
+  margin-top:14px;max-width:820px;
+  font-size:16px;line-height:1.85;color:var(--text-secondary);
+}
+.daily-article-meta{
+  display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;
+}
+.daily-meta-chip{
+  font-family:var(--font-mono);font-size:11px;font-weight:500;
+  color:var(--text-muted);padding:5px 10px;border-radius:999px;
+  border:1px solid rgba(255,255,255,0.06);background:rgba(6,11,24,0.35);
+}
+.daily-article-body{
+  padding:34px 38px 38px;
+}
+.daily-article-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.7fr) minmax(240px,0.72fr);
+  gap:30px;
+  align-items:start;
+}
+.daily-article-main{
+  min-width:0;
+}
+.daily-article-side{
+  position:sticky;top:24px;
+  display:flex;flex-direction:column;gap:14px;
+}
+.daily-side-card{
+  background:rgba(255,255,255,0.02);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:16px;
+  padding:16px 16px 14px;
+}
+.daily-side-label{
+  font-family:var(--font-mono);font-size:11px;font-weight:600;
+  letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:10px;
+}
+.daily-side-text{
+  font-size:13px;line-height:1.75;color:var(--text-secondary);
+}
+.daily-chip-list,.daily-bullet-list{
+  display:flex;flex-wrap:wrap;gap:8px;
+}
+.daily-side-chip{
+  font-family:var(--font-mono);font-size:10px;font-weight:500;
+  padding:4px 8px;border-radius:999px;
+  color:var(--text-secondary);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.04);
+}
+.daily-side-bullet{
+  display:block;width:100%;
+  font-size:12px;line-height:1.55;color:var(--text-secondary);
+  padding-left:12px;position:relative;
+}
+.daily-side-bullet::before{
+  content:'';position:absolute;left:0;top:7px;
+  width:4px;height:4px;border-radius:50%;background:var(--accent);
+}
+.daily-article-body .analysis-content{
+  background:transparent;border:none;border-radius:0;padding:0;
+}
+.daily-article-body .analysis-content h1{
+  font-size:28px;margin:0 0 18px;
+}
+.daily-article-body .analysis-content h2{
+  font-size:23px;margin:36px 0 14px;padding-bottom:10px;
+  position:relative;
+}
+.daily-article-body .analysis-content h3{
+  font-size:18px;margin:24px 0 10px;
+}
+.daily-article-body .analysis-content p{
+  font-size:15px;line-height:2;margin-bottom:16px;
+  color:#cfd7e4;
+}
+.daily-article-body .analysis-content ul{
+  margin:10px 0 16px 2px;
+}
+.daily-article-body .analysis-content li{
+  font-size:14px;line-height:1.8;margin-bottom:6px;
+}
+.daily-article-body .analysis-content blockquote{
+  margin:0 0 24px;
+  padding:16px 18px 16px 20px;
+  border-left:3px solid var(--accent);
+  background:rgba(0,255,200,0.05);
+  border-radius:0 14px 14px 0;
+}
+.daily-article-body .analysis-content blockquote p{
+  margin:0;
+  font-size:15px;
+  line-height:1.8;
+  color:#e8edf5;
+}
+.daily-article-body .analysis-content hr{
+  margin:28px 0;
+}
+.daily-article-body .analysis-content .md-table{
+  margin:16px 0 20px;
+}
+.daily-article-body .analysis-content > *:first-child{
+  margin-top:0;
+}
+.daily-article-body .analysis-content > p:first-of-type::first-letter{
+  float:left;
+  font-family:var(--font-display);
+  font-size:54px;
+  line-height:0.85;
+  padding-right:8px;
+  padding-top:6px;
+  color:#fff;
 }
 .no-analysis{
   text-align:center;padding:48px 20px;color:var(--text-muted);
@@ -1084,6 +1263,10 @@ body::before{
   .page-inner{padding:0 20px 40px}
   .inv-themes{grid-template-columns:1fr}
   .inv-board-grid{grid-template-columns:1fr}
+  .daily-article-header,.daily-article-body{padding:24px 22px}
+  .daily-article-layout{grid-template-columns:1fr;gap:18px}
+  .daily-article-side{position:static}
+  .daily-article-title{max-width:none}
 }
 </style>
 </head>
@@ -1111,6 +1294,7 @@ var allSummaries = __ALL_SUMMARIES_JSON__;
 var allDailyNews = __ALL_DAILY_NEWS_JSON__;
 var analysisMap = __ANALYSIS_MAP_JSON__;
 var investmentMap = __INVESTMENT_MAP_JSON__;
+var articleMap = __ARTICLE_MAP_JSON__;
 var clusterData = __CLUSTERS_JSON__;
 var statsData = __STATS_JSON__;
 var targetDate = '__TARGET_DATE__';
@@ -1218,11 +1402,63 @@ function getWeekday(dateStr) {
   return weekdayNames[d.getDay()] || '';
 }
 
+function extractPlainLead(html) {
+  if (!html) return '';
+  var match = html.match(/<p>(.*?)<\/p>/i);
+  if (!match) return '';
+  var text = match[1]
+    .replace(/<[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return text.slice(0, 120);
+}
+
+function buildDailyArticle(analysis, dateStr, articleCount, sourceCount, inv) {
+  var lead = extractPlainLead(analysis);
+  var articleHtml = '';
+  articleHtml += '<article class="daily-article">';
+  articleHtml += '<div class="daily-article-header">';
+  articleHtml += '<div class="daily-article-kicker">Daily Brief</div>';
+  articleHtml += '<div class="daily-article-title">AI 舆情日报正文</div>';
+  if (lead) {
+    articleHtml += '<div class="daily-article-deck">' + lead + '</div>';
+  }
+  articleHtml += '<div class="daily-article-meta">';
+  articleHtml += '<span class="daily-meta-chip">' + dateStr + ' ' + getWeekday(dateStr) + '</span>';
+  articleHtml += '<span class="daily-meta-chip">' + articleCount + ' 条新闻</span>';
+  articleHtml += '<span class="daily-meta-chip">' + sourceCount + ' 个来源</span>';
+  articleHtml += '</div></div>';
+  articleHtml += '<div class="daily-article-body"><div class="daily-article-layout">';
+  articleHtml += '<div class="daily-article-main"><div class="analysis-content">' + analysis + '</div></div>';
+  articleHtml += '<aside class="daily-article-side">';
+  if (inv && inv.daily_outlook) {
+    articleHtml += '<div class="daily-side-card"><div class="daily-side-label">市场主线</div><div class="daily-side-text">' + inv.daily_outlook + '</div></div>';
+  }
+  if (inv && inv.homepage_modules && inv.homepage_modules.fast_bullets && inv.homepage_modules.fast_bullets.length) {
+    articleHtml += '<div class="daily-side-card"><div class="daily-side-label">快速抓手</div><div class="daily-bullet-list">';
+    inv.homepage_modules.fast_bullets.slice(0, 4).forEach(function(b) {
+      articleHtml += '<span class="daily-side-bullet">' + b + '</span>';
+    });
+    articleHtml += '</div></div>';
+  }
+  if (inv && inv.homepage_modules && inv.homepage_modules.watchlist_tags && inv.homepage_modules.watchlist_tags.length) {
+    articleHtml += '<div class="daily-side-card"><div class="daily-side-label">观察对象</div><div class="daily-chip-list">';
+    inv.homepage_modules.watchlist_tags.slice(0, 8).forEach(function(tag) {
+      articleHtml += '<span class="daily-side-chip">' + tag + '</span>';
+    });
+    articleHtml += '</div></div>';
+  }
+  articleHtml += '</aside></div></div>';
+  articleHtml += '</article>';
+  return articleHtml;
+}
+
 // ===== Render Main Content =====
 function renderContent() {
   var container = document.getElementById('pageContent');
   var news = allDailyNews[currentDate] || [];
   var analysis = analysisMap[currentDate] || '';
+  var articleContent = articleMap[currentDate] || '';
   var hasClusterData = false;
 
   // Check if cluster data is for this date
@@ -1505,14 +1741,14 @@ function renderContent() {
   html += collapsible('sec-datasource', '数据来源与新闻证据', dataBody);
 
   // --- Section 5: Event Overview (LLM report) ---
-  if (analysis) {
-    html += collapsible('sec-overview', '事件概览', '<div class="analysis-content">' + analysis + '</div>');
+  if (articleContent) {
+    html += collapsible('sec-overview', '今日日报', buildDailyArticle(articleContent, currentDate, news.length, Object.keys(srcMap).length, inv));
   } else {
     var noReport = '<div class="analysis-content no-analysis">';
-    noReport += '<p>' + currentDate + ' 暂未生成深度分析报告</p>';
-    noReport += '<p style="margin-top:8px;font-size:12px;">运行 <code style="color:var(--accent);background:var(--accent-dim);padding:2px 6px;border-radius:4px;">python main.py --date ' + currentDate + '</code> 生成</p>';
+    noReport += '<p>' + currentDate + ' 暂未生成日报正文</p>';
+    noReport += '<p style="margin-top:8px;font-size:12px;">运行 <code style="color:var(--accent);background:var(--accent-dim);padding:2px 6px;border-radius:4px;">python main.py --date ' + currentDate + '</code> 重新生成</p>';
     noReport += '</div>';
-    html += collapsible('sec-overview', '事件概览', noReport);
+    html += collapsible('sec-overview', '今日日报', noReport);
   }
 
   } // end else (isFullReport)
