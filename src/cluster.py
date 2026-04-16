@@ -9,6 +9,7 @@
 import json
 import re
 import sys
+import time
 from collections import Counter
 from datetime import datetime
 
@@ -137,6 +138,7 @@ def refine_clusters_with_llm(cluster_groups: list[list[dict]]) -> list[dict]:
                 "combined_topics": item.get("main_topics", []),
                 "combined_key_points": item.get("key_points", []),
                 "combined_impact": item.get("impact", ""),
+                "combined_affected_companies": item.get("affected_companies", []),
                 "max_ai_relevance": item.get("ai_relevance_score", 3),
             })
             continue
@@ -144,7 +146,8 @@ def refine_clusters_with_llm(cluster_groups: list[list[dict]]) -> list[dict]:
         # 多条新闻，让 LLM 判断
         items_text = "\n".join(
             f"  [{i+1}] {item.get('title', '')} (来源: {item.get('source', '')})\n"
-            f"      要点: {'; '.join(item.get('key_points', [])[:3])}"
+            f"      要点: {'; '.join(item.get('key_points', [])[:3])}\n"
+            f"      受影响公司: {'; '.join(c.get('name','') + '(' + c.get('impact_direction','') + ')' for c in item.get('affected_companies', [])[:3])}"
             for i, item in enumerate(group)
         )
 
@@ -163,19 +166,36 @@ def refine_clusters_with_llm(cluster_groups: list[list[dict]]) -> list[dict]:
             is_same = result and result.get("same_event")
         except Exception:
             is_same = False
+        time.sleep(1)  # 避免连续调用触发限频
 
         if is_same:
             # 合并为一个事件
             evt_id += 1
             all_topics = []
             all_points = []
+            all_companies = []
             for item in group:
                 all_topics.extend(item.get("main_topics", []))
                 all_points.extend(item.get("key_points", []))
+                all_companies.extend(item.get("affected_companies", []))
 
             # 去重
             unique_topics = list(dict.fromkeys(all_topics))
             unique_points = list(dict.fromkeys(all_points))
+            # 合并公司影响：同一公司取最强方向
+            company_map = {}
+            for comp in all_companies:
+                name = comp.get("name", "")
+                if not name:
+                    continue
+                if name not in company_map:
+                    company_map[name] = comp
+                else:
+                    existing = company_map[name]
+                    # 利好优先于中性，利空优先于中性
+                    if comp.get("impact_direction", "中性") != "中性" and existing.get("impact_direction", "中性") == "中性":
+                        company_map[name] = comp
+            unique_companies = list(company_map.values())
 
             # 选最佳标题和摘要
             title = (result or {}).get("event_title") or group[0].get("title", "")
@@ -191,6 +211,7 @@ def refine_clusters_with_llm(cluster_groups: list[list[dict]]) -> list[dict]:
                 "combined_topics": unique_topics,
                 "combined_key_points": unique_points,
                 "combined_impact": best_impact,
+                "combined_affected_companies": unique_companies,
                 "max_ai_relevance": max_relevance,
             })
             print(f"  [聚类] 合并事件: {title[:40]}... ({len(group)} 条)")
@@ -206,6 +227,7 @@ def refine_clusters_with_llm(cluster_groups: list[list[dict]]) -> list[dict]:
                     "combined_topics": item.get("main_topics", []),
                     "combined_key_points": item.get("key_points", []),
                     "combined_impact": item.get("impact", ""),
+                    "combined_affected_companies": item.get("affected_companies", []),
                     "max_ai_relevance": item.get("ai_relevance_score", 3),
                 })
 

@@ -12,6 +12,7 @@ LLM 结构化抽取器
 """
 
 import json
+import os
 import re
 import time
 import sys
@@ -54,26 +55,41 @@ def build_extraction_prompt(news_item: dict) -> str:
     return prompt
 
 
-def call_llm(client, prompt: str, max_retries: int = 3) -> str:
-    """调用智谱 API，含重试机制"""
+def call_llm(client, prompt: str, max_retries: int = 3, max_tokens: int = 4096) -> str:
+    """调用智谱 API，含重试机制和 429 专用退避"""
     for attempt in range(max_retries):
         try:
             response = client.chat.completions.create(
                 model=ZHIPU_MODEL,
                 messages=[{"role": "user", "content": prompt}],
-                temperature=0.1,  # 低温度保证结构化输出的稳定性
+                temperature=0.1,
+                max_tokens=max_tokens,
             )
             return response.choices[0].message.content
         except Exception as e:
+            err_str = str(e)
+            is_rate_limit = "429" in err_str or "速率限制" in err_str or "Rate" in err_str
+
+            if is_rate_limit:
+                # 429 限频：较长退避（10s, 30s, 60s）
+                wait = 10 * (3 ** attempt)
+                print(f"  [限频] 触发速率限制，等待 {wait}s 后重试 ({attempt+1}/{max_retries})...")
+            else:
+                # 其他错误：常规退避
+                wait = 3 * (2 ** attempt)
+
             print(f"  [重试 {attempt+1}/{max_retries}] API 调用失败: {e}")
             if attempt < max_retries - 1:
-                time.sleep(2 ** attempt)  # 指数退避
+                time.sleep(wait)
             else:
                 raise
 
 
 def parse_json_response(response_text: str) -> dict | None:
     """从 LLM 返回的文本中解析 JSON"""
+    if not response_text:
+        return None
+
     # 尝试直接解析
     try:
         return json.loads(response_text)
@@ -88,7 +104,7 @@ def parse_json_response(response_text: str) -> dict | None:
         except json.JSONDecodeError:
             pass
 
-    # 尝试提取第一个完整的 JSON 对象
+    # 尝试提取第一个完整的 JSON 对象（支持多层嵌套）
     brace_match = re.search(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', response_text, re.DOTALL)
     if brace_match:
         try:
@@ -96,7 +112,84 @@ def parse_json_response(response_text: str) -> dict | None:
         except json.JSONDecodeError:
             pass
 
+    # 尝试找到顶层 { 并匹配到对应的 }（处理深层嵌套）
+    first_brace = response_text.find('{')
+    if first_brace >= 0:
+        depth = 0
+        in_string = False
+        escape = False
+        for i in range(first_brace, len(response_text)):
+            ch = response_text[i]
+            if escape:
+                escape = False
+                continue
+            if ch == '\\':
+                escape = True
+                continue
+            if ch == '"' and not escape:
+                in_string = not in_string
+                continue
+            if in_string:
+                continue
+            if ch == '{':
+                depth += 1
+            elif ch == '}':
+                depth -= 1
+                if depth == 0:
+                    candidate = response_text[first_brace:i + 1]
+                    try:
+                        return json.loads(candidate)
+                    except json.JSONDecodeError:
+                        # 尝试修复常见的截断：补全未闭合的括号
+                        return _try_fix_truncated_json(candidate)
+
     return None
+
+
+def _try_fix_truncated_json(text: str) -> dict | None:
+    """尝试修复被截断的 JSON（补全缺失的括号）"""
+    # 统计未闭合的括号
+    open_braces = 0
+    open_brackets = 0
+    in_string = False
+    escape = False
+
+    for ch in text:
+        if escape:
+            escape = False
+            continue
+        if ch == '\\':
+            escape = True
+            continue
+        if ch == '"':
+            in_string = not in_string
+            continue
+        if in_string:
+            continue
+        if ch == '{':
+            open_braces += 1
+        elif ch == '}':
+            open_braces -= 1
+        elif ch == '[':
+            open_brackets += 1
+        elif ch == ']':
+            open_brackets -= 1
+
+    # 补全缺失的闭合符号
+    fixed = text
+    # 如果在字符串中被截断，先闭合字符串
+    if in_string:
+        fixed += '"'
+    # 补全括号
+    for _ in range(max(0, open_brackets)):
+        fixed += ']'
+    for _ in range(max(0, open_braces)):
+        fixed += '}'
+
+    try:
+        return json.loads(fixed)
+    except json.JSONDecodeError:
+        return None
 
 
 def validate_extracted(data: dict) -> dict:
@@ -115,6 +208,29 @@ def validate_extracted(data: dict) -> dict:
     if not isinstance(data.get("impact"), str) or not data["impact"].strip():
         data["impact"] = "影响待评估"
 
+    # 确保 affected_companies 是列表
+    if not isinstance(data.get("affected_companies"), list):
+        data["affected_companies"] = []
+    for i, comp in enumerate(data["affected_companies"]):
+        if not isinstance(comp, dict):
+            data["affected_companies"][i] = {
+                "name": str(comp), "impact_direction": "中性", "reason": ""
+            }
+        else:
+            comp.setdefault("name", "")
+            comp.setdefault("impact_direction", "中性")
+            comp.setdefault("reason", "")
+
+    # 确保 market_signal 是字典
+    if not isinstance(data.get("market_signal"), dict):
+        data["market_signal"] = {
+            "risk_level": "无", "opportunity_type": "无", "investment_hint": ""
+        }
+    ms = data["market_signal"]
+    ms.setdefault("risk_level", "无")
+    ms.setdefault("opportunity_type", "无")
+    ms.setdefault("investment_hint", "")
+
     return data
 
 
@@ -123,6 +239,8 @@ FALLBACK_EXTRACTION = {
     "main_topics": [],
     "key_points": [],
     "impact": "影响待评估",
+    "affected_companies": [],
+    "market_signal": {"risk_level": "无", "opportunity_type": "无", "investment_hint": ""},
 }
 
 
@@ -143,7 +261,7 @@ def extract_single_news(client, news_item: dict) -> dict:
     return {**news_item, **extracted}
 
 
-def extract_all(news_list: list[dict], batch_delay: float = 1.0) -> list[dict]:
+def extract_all(news_list: list[dict], batch_delay: float = 2.0) -> list[dict]:
     """
     分批对所有新闻进行结构化抽取
 
@@ -183,6 +301,53 @@ def extract_all(news_list: list[dict], batch_delay: float = 1.0) -> list[dict]:
 
     print(f"[抽取] 完成，成功处理 {len(results)} 条")
     return results
+
+
+def extract_incremental(news_list: list[dict], existing_path: str = None, batch_delay: float = 1.0) -> list[dict]:
+    """
+    增量抽取：只对新增新闻调用 LLM，已抽取的直接复用
+
+    通过新闻 ID 判断是否已处理过，避免重复调用 API。
+
+    Args:
+        news_list: 当前全部新闻列表
+        existing_path: 已有结构化数据文件路径
+        batch_delay: 每次调用之间的延迟（秒）
+
+    Returns:
+        合并后的完整结构化新闻列表
+    """
+    # 加载已有数据
+    existing_structured = []
+    existing_ids = set()
+
+    if existing_path and os.path.exists(existing_path):
+        try:
+            with open(existing_path, "r", encoding="utf-8") as f:
+                existing_structured = json.load(f)
+            existing_ids = {item.get("id", "") for item in existing_structured}
+            print(f"[增量抽取] 已有 {len(existing_structured)} 条结构化数据")
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"[增量抽取] 读取已有数据失败: {e}，将全量抽取")
+            existing_structured = []
+            existing_ids = set()
+
+    # 找出新增条目
+    new_items = [item for item in news_list if item.get("id", "") not in existing_ids]
+
+    if not new_items:
+        print(f"[增量抽取] 没有新增数据，跳过抽取")
+        return existing_structured
+
+    print(f"[增量抽取] 发现 {len(new_items)} 条新增新闻（已有 {len(existing_ids)} 条）")
+
+    # 只对新增条目调用 LLM
+    new_structured = extract_all(new_items, batch_delay=batch_delay)
+
+    # 合并：已有数据 + 新抽取数据
+    merged = existing_structured + new_structured
+    print(f"[增量抽取] 合并后共 {len(merged)} 条结构化数据")
+    return merged
 
 
 def save_structured_news(news_list: list[dict], filepath: str = None) -> str:
